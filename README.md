@@ -1,21 +1,46 @@
 # BV3- FlowTrack
 Optical Flow and Trajectory Estimator
 
-Provide images and GPS coordinates and get a map.
 
-## Requirements
-- images
-- parameters from camera calibration 
+## Overview
+This program estimates trajectories based on video frames and GPS data. It uses computer vision techniques to analyze consecutive frames and plot trajectories in UTM coordinates derived from GPX files.
+
+## Features
+- Extracts and saves individual frames from a video. (separate Python file)
+- Converts geographic coordinates (latitude and longitude) from GPX files to UTM coordinates.
+- Uses SIFT (Scale-Invariant Feature Transform) to detect and match features between consecutive frames.
+- Plots GPS tracks and optical flow data for trajectory visualization.
+- Enhances image contrast using CLAHE (Contrast Limited Adaptive Histogram Equalization).
+- Corrects lens distortion using intrinsic camera parameters.
+
+## Prerequisites
+- Python 3.10
+- NumPy
+- OpenCV
+- Matplotlib
+- gpxpy
+- utm
+
 
 
 ## Steps
-- load images
-- convert to gray scale (for processing)
-- enhancing contrast by clahe algorithm
+- record a video and gps coordinates at the same time (e.g. App "GPS Logger")
+- take several images from a chessboard
+- process the chessboard images  by using `cameraCalibration.py` and save the camera parameters in a txt file
 - 
+- adjust the paths in the script to point to your local directories
+- run the script
+  - load images
+  - convert to gray scale (for processing)
+  - enhancing contrast by clahe algorithm
+  - Initialize a plot with the start point.
+  - Plot GPS coordinates from the GPX file.
+  - Load camera calibration parameters (if `cameraCalibration` is set to 1).
+  - Process image pairs to detect and match features.
+  - Calculate and plot the trajectory based on the detected motion.
 
 
-## SW Tools
+## SW Helpies
 
 ### Camera Calibration
 
