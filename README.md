@@ -1,4 +1,4 @@
-# BV3- FlowTrack
+# BV3 - FlowTrack
 Optical Flow and Trajectory Estimator
 
 
@@ -16,29 +16,17 @@ This program estimates trajectories based on video frames and GPS data. It uses 
 ## Prerequisites
 - Python 3.10
 - NumPy
-- OpenCV
+- OpenCV 4.7.0
 - Matplotlib
 - gpxpy
 - utm
 
-
-
-## Steps
+## Procedure
 - record a video and gps coordinates at the same time (e.g. App "GPS Logger")
 - take several images from a chessboard
 - process the chessboard images  by using `cameraCalibration.py` and save the camera parameters in a txt file
-- 
 - adjust the paths in the script to point to your local directories
 - run the script
-  - load images
-  - convert to gray scale (for processing)
-  - enhancing contrast by clahe algorithm
-  - Initialize a plot with the start point.
-  - Plot GPS coordinates from the GPX file.
-  - Load camera calibration parameters (if `cameraCalibration` is set to 1).
-  - Process image pairs to detect and match features.
-  - Calculate and plot the trajectory based on the detected motion.
-
 
 ## SW Helpies
 
@@ -102,7 +90,30 @@ This program visualizes your data from a GPX file. GPX files store GPS data as g
 
 ![Plot](/GPX%20Plotter%20Map%20example.png)
 
+## How does it work in detail...
+- 
+    - initialize a plot with the starting point.
+    - plot GPS coordinates from the GPX file.
+    - Load camera calibration parameters (if `cameraCalibration` is set to 1).
+    - load image pair (frame before and current)
+    - convert color image to grayscale (only for processing)
+    - enhance contrast through clahe algorithm
+    - calculate keypoints and descriptors through SIFT algorithm
+    - match descriptors between previous and current frame
+    - filter matches:
+      - by distance of the best found and the second best
+      - extract corresponding points
+      - filter points with ROI
+    - calculate vector between previous and current point
+    - extend the vector by a factor for increasing the accuracy
+    - calculate focus of expansion point
+    - compute the direction "left", "straight" or "right" based on the position of the focus of expansion point
+    - 
 
+
+  - 
+  - Process image pairs to detect and match features.
+  - Calculate and plot the trajectory based on the detected motion.
 
 
 
@@ -110,13 +121,20 @@ This program visualizes your data from a GPX file. GPX files store GPS data as g
 ```mermaid
 flowchart LR
 
+subgraph Process
+Read
+correct
+end
+
+Read --> correct --> grayscale --> enhancing --> SIFT --> match --> filter --> e
+
 subgraph Input
 inputImage["Image"]
-inputTime["Time"]
+inputTime["gpx"]
 end
 
 subgraph Processor
-procShape["Detect Shapes"]
+procShape["enhancing contrast"]
 procTime["Create Timestamp"]
 procColor["Detect Color"]
 procLog["Logger"]
