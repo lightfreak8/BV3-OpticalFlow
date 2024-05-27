@@ -3,7 +3,7 @@ Optical Flow and Trajectory Estimator
 
 
 ## Overview
-This program estimates trajectories based on video frames and GPS data. It uses computer vision techniques to analyze consecutive frames and plot trajectories in UTM coordinates derived from GPX files.
+This program estimates trajectories by analizing consecutive frames using the concept of optical flow. It also allows a comparison between the estimated trajectories and the recorded GPS data. The GPS data, which is in GPX file format, is converted to UTM (Universal Transverse Mercator) coordinates for plotting purposes and accurate comparison.
 
 ## Features
 - Extracts and saves individual frames from a video. (separate Python file)
@@ -38,7 +38,7 @@ Requirements:\
 
 This calibration calculates parameters for the correction of images.
 The camera matrix contains the values for focal length and optical centers. The camera matrix parameter values (intrinsic) as well as the found distortion coefficients can be used for removing distortion which is caused by the camera lens.
-Whereas the extrinsic parameters corresponds to rotation and translation vectors which translates the coordinates of a 3D point to a coordinate system.
+Whereas the extrinsic parameters (not needed) corresponds to rotation and translation vectors which translates the coordinates of a 3D point to a coordinate system.
 
 
 Example parameters (which have to be saved in a file manually):
@@ -56,13 +56,13 @@ Distortion:
 ### Frames Cutter
 getFramesFromVideo.py
 
-This program saves each frame from your provided video, allowing you to optimally set the parameters. This ensures that you get the optimum image section for processing by FlowTrack later.
+This program saves each frame from your provided video, allowing you to optimally set the parameters. This ensures that you get the optimum frame interval and image section for processing by FlowTrack later.
 
-**Description of adjustable parameters**
+#### Description of adjustable parameters
 - videoFPS = input video fps
-- fpsDivider = Depends from your desired fps rate for the extracted frames. \
-  videoFPS / fpsDivider = output fps\
-  30 fps / 5 = 6 fps
+- fpsDivider = depends from your desired fps rate for the extracted frames. \
+  output fps = video fps / fps Divider\
+  e.g. 30 fps / 5 = 6 fps
 - resizedWidth and resizedHeight \
   It's important to provide a sufficient resolution. If the resolution is too low, FlowTrack may not find enough features, resulting in unsatisfactory tracking results.
 - cropWidth, cropHeightBottom, cropHeightTop\
@@ -86,73 +86,37 @@ cropHeightTop = 100
 ### GPX Plotter
 gpxFilePlotter.py
 
-This program visualizes your data from a GPX file. GPX files store GPS data as geographic latitude and longitude coordinates. To plot this data effectively, these coordinates are converted into UTM coordinates.
+This program visualizes your data from a GPX file. GPX files store GPS data as geographic latitude and longitude coordinates. To plot this data effectively, these coordinates are converted to UTM coordinates.
 
-![Plot](/GPX%20Plotter%20Map%20example.png)
+![Plot](/GPX%20Plotter%20Map%20example%20black.png)
 
 ## How does it work in detail...
-- 
-    - initialize a plot with the starting point.
-    - plot GPS coordinates from the GPX file.
-    - Load camera calibration parameters (if `cameraCalibration` is set to 1).
-    - load image pair (frame before and current)
-    - convert color image to grayscale (only for processing)
-    - enhance contrast through clahe algorithm
-    - calculate keypoints and descriptors through SIFT algorithm
-    - match descriptors between previous and current frame
-    - filter matches:
-      - by distance of the best found and the second best
-      - extract corresponding points
-      - filter points with ROI
+- initialize a plot with the starting point
+- plot the recorded GPS coordinates from the GPX file
+- load camera calibration parameters (if `cameraCalibration` is set to 1).
+- for loop:
+  - load image pair (frame before and current)
+  - convert color image to grayscale (visualization with color frame)
+  - correct images (if `cameraCalibration` is set to 1)
+  - enhance contrast through clahe algorithm
+  - calculate keypoints and descriptors through SIFT algorithm
+  - match descriptors between previous and current frame
+  - filter matches:
+    - by comparing the distance ratio of the best match and the second best match
+    - extract corresponding points into prev_points and next_points
+    - filter points within ROI
     - calculate vector between previous and current point
     - extend the vector by a factor for increasing the accuracy
-    - calculate focus of expansion point
-    - compute the direction "left", "straight" or "right" based on the position of the focus of expansion point
-    - 
+  - calculate the focus of expansion (FoE) point by using the mean of filtered_points + extended_vectors
+  - compute the direction "left", "straight" or "right" based on the position of the FoE point
+  - draw
+  - ROI lines for visualization
+  - lines and points between matching features
+  - red point for FoE
+  - put Text on visualization image with direction "left", "straight" or "right"
+  - update map and calculate speed vector compontents and angle components (map update not visualized continuously)
+- by pressing "ESC" finish script and visualize the updated trajectory on a plot
 
 
-  - 
-  - Process image pairs to detect and match features.
-  - Calculate and plot the trajectory based on the detected motion.
+![Plot](/FlowTrack%20Map%20example%20black%20red.png)
 
-
-
-## Input-Processor-Output Diagram
-```mermaid
-flowchart LR
-
-subgraph Process
-Read
-correct
-end
-
-Read --> correct --> grayscale --> enhancing --> SIFT --> match --> filter --> e
-
-subgraph Input
-inputImage["Image"]
-inputTime["gpx"]
-end
-
-subgraph Processor
-procShape["enhancing contrast"]
-procTime["Create Timestamp"]
-procColor["Detect Color"]
-procLog["Logger"]
-end
-
-subgraph Output 
-outLog["Logging (CSV)"]
-outDisplay["Display"]
-end
-
-
-inputTime --> procTime
-inputImage --> procShape
-
-procTime --> procLog
-procColor --> procLog
-procColor --> outDisplay
-procShape --> procColor
-
-procLog --> outLog
-```
