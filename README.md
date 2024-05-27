@@ -1,7 +1,7 @@
 # BV3 - FlowTrack
 Optical Flow and Trajectory Estimator
 
-
+![example straight2](example%20straight2.jpeg)
 ## Overview
 This program estimates trajectories by analizing consecutive frames using the concept of optical flow. It also allows a comparison between the estimated trajectories and the recorded GPS data. The GPS data, which is in GPX file format, is converted to UTM (Universal Transverse Mercator) coordinates for plotting purposes and accurate comparison.
 
@@ -88,7 +88,7 @@ gpxFilePlotter.py
 
 This program visualizes your data from a GPX file. GPX files store GPS data as geographic latitude and longitude coordinates. To plot this data effectively, these coordinates are converted to UTM coordinates.
 
-![Plot](GPX%20Plotter%20Map%20example%20black.png)
+![GPX Plotter example black](GPX%20Plotter%20Map%20example%20black.png)
 
 ## How does it work in detail...
 - initialize a plot with the starting point
@@ -118,7 +118,7 @@ This program visualizes your data from a GPX file. GPX files store GPS data as g
 - by pressing "ESC" finish script and visualize the updated trajectory on a plot
 
 
-![hblalala](FlowTrack Map example black red.png)
+![FlowTrack Map example black red](FlowTrack%20Map%20example%20black%20red.png)
 
 
 
