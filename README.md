@@ -118,7 +118,7 @@ This program visualizes your data from a GPX file. GPX files store GPS data as g
 - by pressing "ESC" finish script and visualize the updated trajectory on a plot
 
 
-![hblalala](FLowTrack Map example black red.png)
+![hblalala](FlowTrack Map example black red.png)
 
 
 
