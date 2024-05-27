@@ -102,7 +102,7 @@ This program visualizes your data from a GPX file. GPX files store GPS data as g
   - calculate keypoints and descriptors through SIFT algorithm
   - match descriptors between previous and current frame
   - filter matches:
-    - by comparing the distance ratio of the best match and the second best match
+    - by comparing the distance ratio of the best match and the second best match for a specific feature
     - extract corresponding points into prev_points and next_points
     - filter points within ROI
     - calculate vector between previous and current point
@@ -110,9 +110,9 @@ This program visualizes your data from a GPX file. GPX files store GPS data as g
   - calculate the focus of expansion (FoE) point by using the mean of filtered_points + extended_vectors
   - compute the direction "left", "straight" or "right" based on the position of the FoE point
   - draw
-  - ROI lines for visualization
-  - lines and points between matching features
-  - red point for FoE
+    - ROI lines for visualization
+    - lines and points between matching features
+    - red point for FoE
   - put Text on visualization image with direction "left", "straight" or "right"
   - update map and calculate speed vector compontents and angle components (map update not visualized continuously)
 - by pressing "ESC" finish script and visualize the updated trajectory on a plot
