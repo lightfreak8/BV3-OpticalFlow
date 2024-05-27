@@ -88,7 +88,7 @@ gpxFilePlotter.py
 
 This program visualizes your data from a GPX file. GPX files store GPS data as geographic latitude and longitude coordinates. To plot this data effectively, these coordinates are converted to UTM coordinates.
 
-![GPX Plotter example black](GPX%20Plotter%20Map%20example%20black.png)
+![GPX Plotter Map](GPX%20Plotter%20Map.jpeg)
 
 ## How does it work in detail...
 - initialize a plot with the starting point
@@ -118,7 +118,7 @@ This program visualizes your data from a GPX file. GPX files store GPS data as g
 - by pressing "ESC" finish script and visualize the updated trajectory on a plot
 
 
-![FlowTrack Map example black red](FlowTrack%20Map%20example%20black%20red.png)
+![FlowTrack Map](FlowTrack%20Map.jpeg)
 
 
 
