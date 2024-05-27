@@ -20,11 +20,11 @@ import utm
 
 #%% Paths
 #images
-folder_path = "C:/Users/rapha/switchdrive/PHO_Studium/Bildverarbeitung 3/SEMESTERPROJEKT/Aufnahmen_09.05.2024/imagesFlowTrack"
+folder_path = "imagesFlowTrack"
 #gpx file
-gpx_path = "C:/Users/rapha/switchdrive/PHO_Studium/Bildverarbeitung 3/SEMESTERPROJEKT/Aufnahmen_09.05.2024/gpsFlowTrack.gpx"
+gpx_path = "gpsFlowTrack.gpx"
 # camera calibration parameter 
-intrinsic_path = "C:/Users/rapha/switchdrive/PHO_Studium/Bildverarbeitung 3/SEMESTERPROJEKT/Aufnahmen_09.05.2024/intrinsic.txt"
+intrinsic_path = "intrinsic.txt"
 cameraCalibration =1 #1 = load intrinsic parameters if images aren't corrected
 
 
